@@ -103,7 +103,7 @@ STACK = [
 ]
 
 # Bump when graphics change so GitHub's image cache fetches the new files.
-VERSION = 5
+VERSION = 6
 
 # ---------------------------------------------------------------- THEME
 
@@ -227,7 +227,6 @@ def header(c):
         + f'<g mask="url(#m)" stroke="{c["grid"]}" stroke-width="1">{grid}</g>'
         + palette_band(0, h - 8, W, 8, c)
         + '</g>'
-        + t(pad, pad + 14, 'SR', 18, 900, c['panel_text'])
         + t(W - pad, pad + 14, 'Portfolio', 13, 400, c['panel_muted'], 'end', 0.18, True)
     )
     size = 128
