@@ -20,7 +20,7 @@ Currently: _what you're working on_ · Learning: _what you're learning_ · Open 
 
 <picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/section-projects-dark.svg?v=3" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/section-projects-light.svg?v=3" alt="02 Featured Projects" width="100%" /></picture>
 
-<a href="https://github.com/SR7D3V/Lucid"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/project-lucid-dark.svg?v=3" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/project-lucid-light.svg?v=3" alt="Lucid: a multi-store clothing retail platform built with Next.js, TypeScript and PostgreSQL" width="100%" /></picture></a>
+<a href="https://github.com/SR7D3V/Lucid"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/project-lucid-dark.svg?v=3" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/project-lucid-light.svg?v=3" alt="Lucid: a multi-store clothing retail platform built with Next.js, TypeScript and PostgreSQL" width="33.33%" /></picture></a>
 
 <br/>
 
