@@ -12,9 +12,7 @@
 
 <!-- ABOUT: write your own text below. Plain markdown works here. -->
 
-I'm a creative technologist working where design meets code. I build immersive worlds in Unreal Engine, design brand identities and editorial layouts, and craft web experiences where motion has a purpose.
-
-Currently: _what you're working on_ · Learning: _what you're learning_ · Open to: _internships, collaborations_
+I’m Swarnim, exploring the intersection of design and technology through 3D, XR, full-stack development, and interactive experiences. I enjoy experimenting with new ideas, learning as I go, and seeing where curiosity takes me.
 
 <br/>
 
