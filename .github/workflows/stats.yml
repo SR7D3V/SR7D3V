@@ -1,0 +1,32 @@
+name: Update stats
+
+on:
+  schedule:
+    - cron: '30 18 * * *' # midnight IST
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: [scripts/build.py, .github/workflows/stats.yml]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build stats and contributions
+        env:
+          # Add a STATS_TOKEN secret (classic PAT, read:user) to include private contributions.
+          GITHUB_TOKEN: ${{ secrets.STATS_TOKEN || github.token }}
+        run: python3 scripts/build.py live
+      - name: Publish to the output branch
+        # A separate orphan branch keeps these commits out of main's history and contributors.
+        run: |
+          cd dist
+          git init -q -b output
+          git add .
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit -q -m "Update stats"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" output
