@@ -12,7 +12,7 @@
 
 <!-- ABOUT: write your own text below. Plain markdown works here. -->
 
-I’m Swarnim, exploring the intersection of design and technology through 3D, XR, full-stack development, and interactive experiences. I enjoy experimenting with new ideas, learning as I go, and seeing where curiosity takes me.
+I’m Swarnim, exploring the intersection of design and technology through XR, full-stack development, and interactive experiences. I enjoy experimenting with new ideas, learning as I go, and seeing where curiosity takes me.
 
 <br/>
 
