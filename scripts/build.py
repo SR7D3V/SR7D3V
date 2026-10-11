@@ -55,33 +55,55 @@ PROJECTS = [
     },
 ]
 
-# (category, palette colour, [(name shown on hover, icon key from scripts/icons.json)])
+# (category, palette colour, [(name shown on hover, icon key, brand colour, link)])
+# Brand colour None uses the category's palette colour; 'ink' keeps monochrome logos in the text colour.
+MDN = 'https://developer.mozilla.org/en-US/docs/Web'
+WIKI = 'https://en.wikipedia.org/wiki'
 STACK = [
     ('Programming Languages', 'merlot', [
-        ('Java', 'java'), ('Python', 'python'), ('C', 'c'), ('Swift', 'swift'), ('SQL', 'sql'),
+        ('Java', 'java', '#E76F00', 'https://dev.java'),
+        ('Python', 'python', '#3776AB', 'https://www.python.org'),
+        ('C', 'c', '#A8B9CC', 'https://en.cppreference.com/w/c'),
+        ('Swift', 'swift', '#F05138', 'https://www.swift.org'),
+        ('SQL', 'sql', None, f'{WIKI}/SQL'),
     ]),
     ('Frontend Development', 'tobacco', [
-        ('JavaScript', 'javascript'), ('React', 'react'), ('Next.js', 'nextjs'), ('GSAP', 'gsap'),
-        ('Web Animation', 'web-animation'), ('HTML', 'html'), ('CSS', 'css'),
+        ('JavaScript', 'javascript', '#F7DF1E', f'{MDN}/JavaScript'),
+        ('React', 'react', '#61DAFB', 'https://react.dev'),
+        ('Next.js', 'nextjs', 'ink', 'https://nextjs.org'),
+        ('GSAP', 'gsap', '#0AE448', 'https://gsap.com'),
+        ('Web Animation', 'web-animation', None, f'{MDN}/API/Web_Animations_API'),
+        ('HTML', 'html', '#E34F26', f'{MDN}/HTML'),
+        ('CSS', 'css', '#663399', f'{MDN}/CSS'),
     ]),
     ('Backend Development', 'olive', [
-        ('MySQL', 'mysql'), ('Oracle SQL', 'oracle'), ('PostgreSQL', 'postgresql'),
-        ('Schema Design', 'schema-design'), ('Query Optimization', 'query-optimization'),
+        ('MySQL', 'mysql', '#4479A1', 'https://www.mysql.com'),
+        ('Oracle SQL', 'oracle', '#F80000', 'https://www.oracle.com/database/'),
+        ('PostgreSQL', 'postgresql', '#4169E1', 'https://www.postgresql.org'),
+        ('Schema Design', 'schema-design', None, f'{WIKI}/Database_schema'),
+        ('Query Optimization', 'query-optimization', None, f'{WIKI}/Query_optimization'),
     ]),
     ('Design', 'midnight', [
-        ('UI/UX Design', 'ui-ux'), ('Graphic Design', 'graphic-design'),
+        ('UI/UX Design', 'ui-ux', None, f'{WIKI}/User_experience_design'),
+        ('Graphic Design', 'graphic-design', None, f'{WIKI}/Graphic_design'),
     ]),
     ('Game Development', 'merlot', [
-        ('Unreal Engine', 'unreal-engine'), ('Blender', 'blender'), ('Meta XR', 'meta'),
+        ('Unreal Engine', 'unreal-engine', 'ink', 'https://www.unrealengine.com'),
+        ('Blender', 'blender', '#E87D0D', 'https://www.blender.org'),
+        ('Meta XR', 'meta', '#0081FB', 'https://developers.meta.com/horizon/'),
     ]),
     ('Tools', 'tobacco', [
-        ('Git', 'git'), ('Jupyter', 'jupyter'), ('VS Code', 'vscode'), ('Figma', 'figma'),
-        ('Xcode', 'xcode'), ('Swift Playgrounds', 'swift+play'),
+        ('Git', 'git', '#F05032', 'https://git-scm.com'),
+        ('Jupyter', 'jupyter', '#F37626', 'https://jupyter.org'),
+        ('VS Code', 'vscode', '#007ACC', 'https://code.visualstudio.com'),
+        ('Figma', 'figma', '#F24E1E', 'https://www.figma.com'),
+        ('Xcode', 'xcode', '#147EFB', 'https://developer.apple.com/xcode/'),
+        ('Swift Playgrounds', 'swift+play', '#F05138', 'https://www.apple.com/swift/playgrounds/'),
     ]),
 ]
 
 # Bump when graphics change so GitHub's image cache fetches the new files.
-VERSION = 4
+VERSION = 5
 
 # ---------------------------------------------------------------- THEME
 
@@ -316,15 +338,52 @@ def glyph(key, x, y, size, ink):
             f'<g {paint}>{shapes}</g></svg>')
 
 
-def icon_tile(key, name, c):
+def _rgb(hex_):
+    return [int(hex_[i:i + 2], 16) for i in (1, 3, 5)]
+
+
+def _hex(rgb):
+    return '#' + ''.join(f'{round(v):02x}' for v in rgb)
+
+
+def _mix(a, b, k):
+    return _hex([x + (y - x) * k for x, y in zip(_rgb(a), _rgb(b))])
+
+
+def _contrast(a, b):
+    def lum(h):
+        v = [x / 255 for x in _rgb(h)]
+        v = [x / 12.92 if x <= 0.03928 else ((x + 0.055) / 1.055) ** 2.4 for x in v]
+        return 0.2126 * v[0] + 0.7152 * v[1] + 0.0722 * v[2]
+    hi, lo = sorted((lum(a), lum(b)), reverse=True)
+    return (hi + 0.05) / (lo + 0.05)
+
+
+def readable(color, c):
+    """Nudge a brand colour toward the text colour until it stands out from the page."""
+    # Thin-line logos need more contrast on the dark background to read at tile size.
+    minimum = 5.5 if c['bg'] == '#0d1117' else 3.4
+    k = 0.0
+    while _contrast(_mix(color, c['text'], k), c['bg']) < minimum and k < 1:
+        k += 0.05
+    return _mix(color, c['text'], min(k, 1))
+
+
+def icon_tile(key, name, brand, category, c):
     base, _, badge = key.partition('+')
+    if brand == 'ink':
+        ink, tint = c['text'], c['text']
+    else:
+        ink = readable(brand or c['colors'][category], c)
+        tint = ink
     o = (TILE - GLYPH) / 2
-    body = glass(0.5, 0.5, TILE - 1, TILE - 1, c['text'], 16)
-    body += glyph(base, o, o, GLYPH, c['text'])
+    body = rect(0.5, 0.5, TILE - 1, TILE - 1, tint, 16,
+                f' fill-opacity="{0.06 if brand == "ink" else 0.1}" stroke="{tint}" stroke-opacity="0.32"')
+    body += glyph(base, o, o, GLYPH, ink)
     if badge == 'play':
         # Swift Playgrounds: the Swift mark with a small play badge.
         bx, by = TILE - 17, TILE - 17
-        body += (f'<circle cx="{bx}" cy="{by}" r="8" fill="{c["text"]}"/>'
+        body += (f'<circle cx="{bx}" cy="{by}" r="8" fill="{ink}"/>'
                  f'<path d="M{bx - 2.5} {by - 4}L{bx + 4} {by}L{bx - 2.5} {by + 4}Z" fill="{c["bg"]}"/>')
     return svg(TILE, TILE, body, [], name)
 
@@ -367,7 +426,9 @@ def readme_projects():
 def readme_stack():
     rows = []
     for label, _, items in STACK:
-        tiles = [picture(f'icon-{slugify(name)}', name, title=name) for name, _ in items]
+        # The link's title gives a hover label over the whole tile, and clicking opens the tool's site.
+        tiles = [f'<a href="{url}" title="{escape(name)}">{picture(f"icon-{slugify(name)}", name, title=name)}</a>'
+                 for name, _, _, url in items]
         rows.append('<p>\n' + picture(f'stack-{slugify(label)}', label) + '\n' + '\n'.join(tiles) + '\n</p>')
     return f'\n{picture("rule", "", "100%")}\n'.join(rows)
 
@@ -399,8 +460,8 @@ def build_static():
             files[f'project-{p["slug"]}-{name}.svg'] = project_card(i, p, c)
         for label, color, items in STACK:
             files[f'stack-{slugify(label)}-{name}.svg'] = stack_label(label, color, c)
-            for item, key in items:
-                files[f'icon-{slugify(item)}-{name}.svg'] = icon_tile(key, item, c)
+            for item, key, brand, _ in items:
+                files[f'icon-{slugify(item)}-{name}.svg'] = icon_tile(key, item, brand, color, c)
         for fname, content in files.items():
             (out / fname).write_text(content)
     fill_readme()
