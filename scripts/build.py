@@ -9,6 +9,7 @@ Edit the CONTENT block below, then re-run `static`. Standard library only.
 import base64
 import datetime as dt
 import json
+import math
 import os
 import sys
 import urllib.request
@@ -26,18 +27,20 @@ SITE_LABEL = 'swarnimrai.vercel.app'
 NAME = ['SWARNIM', 'RAI']
 TAGLINE = 'A creative technologist exploring design, game development, and digital experiences.'
 
+# (slug, label, palette colour)
 LINKS = [
-    ('linkedin', 'LinkedIn'),
-    ('github', 'GitHub'),
-    ('email', 'Email'),
+    ('linkedin', 'LinkedIn', 'midnight'),
+    ('github', 'GitHub', 'olive'),
+    ('email', 'Email', 'merlot'),
 ]
 
+# (slug, number, title, palette colour)
 SECTIONS = [
-    ('about', '01', 'About'),
-    ('projects', '02', 'Featured Projects'),
-    ('stack', '03', 'Tech Stack'),
-    ('stats', '04', 'GitHub Stats'),
-    ('contributions', '05', 'Contributions'),
+    ('about', '01', 'About', 'merlot'),
+    ('projects', '02', 'Featured Projects', 'olive'),
+    ('stack', '03', 'Tech Stack', 'midnight'),
+    ('stats', '04', 'GitHub Stats', 'tobacco'),
+    ('contributions', '05', 'Contributions', 'merlot'),
 ]
 
 PROJECTS = [
@@ -49,46 +52,49 @@ PROJECTS = [
                 'checkout with row-level locks, a trigger-maintained inventory ledger and '
                 'full-text search.',
         'stack': ['Next.js', 'TypeScript', 'PostgreSQL'],
+        'color': 'merlot',
     },
 ]
 
+# (category, items, palette colour)
 STACK = [
-    ('Programming Languages', ['Java', 'Python', 'C', 'Swift', 'SQL']),
-    ('Frontend Development', ['JavaScript', 'React', 'Next.js', 'GSAP', 'Web Animation', 'HTML', 'CSS']),
-    ('Backend Development', ['MySQL', 'Oracle SQL', 'PostgreSQL', 'Schema Design', 'Query Optimization']),
-    ('Design', ['UI/UX Design', 'Graphic Design']),
-    ('Game Development', ['Unreal Engine', 'Blender', 'Meta XR']),
-    ('Tools', ['Git', 'Jupyter', 'VS Code', 'Figma', 'Xcode', 'Swift Playgrounds']),
+    ('Programming Languages', ['Java', 'Python', 'C', 'Swift', 'SQL'], 'merlot'),
+    ('Frontend Development', ['JavaScript', 'React', 'Next.js', 'GSAP', 'Web Animation', 'HTML', 'CSS'], 'tobacco'),
+    ('Backend Development', ['MySQL', 'Oracle SQL', 'PostgreSQL', 'Schema Design', 'Query Optimization'], 'olive'),
+    ('Design', ['UI/UX Design', 'Graphic Design'], 'midnight'),
+    ('Game Development', ['Unreal Engine', 'Blender', 'Meta XR'], 'merlot'),
+    ('Tools', ['Git', 'Jupyter', 'VS Code', 'Figma', 'Xcode', 'Swift Playgrounds'], 'tobacco'),
 ]
 
 # ---------------------------------------------------------------- THEME
 
-THEMES = {
-    'light': {
-        'text': '#111111', 'muted': '#696969', 'faint': '#a3a3a0',
-        'rule': '#e3e3e0', 'surface': '#f3f3f1', 'grid': 'rgba(0,0,0,0.09)',
-        'accent': '#4f46e5',
-        # Contribution levels: empty, then a single-hue indigo ramp.
-        'levels': ['#ececea', '#c7d2fe', '#818cf8', '#4f46e5', '#312e81'],
-        'other': '#c4c4c1',
-    },
-    'dark': {
-        'text': '#f0f0ee', 'muted': '#9a9a97', 'faint': '#5f5f5c',
-        'rule': '#2a2d31', 'surface': '#161a1f', 'grid': 'rgba(255,255,255,0.07)',
-        'accent': '#818cf8',
-        'levels': ['#1b1f24', '#2e2a6b', '#4338ca', '#6366f1', '#a5b4fc'],
-        'other': '#5f5f5c',
-    },
+# Bone, Merlot, Olive, Midnight Blue, Tobacco, Graphite.
+BONE, GRAPHITE = '#E6E0D6', '#121212'
+PALETTE = {
+    'merlot': '#4B1E23', 'olive': '#6B6F4E', 'midnight': '#1C2430',
+    'tobacco': '#8A5A2B', 'graphite': GRAPHITE,
 }
 
-# GitHub's own language colours (github-linguist), so each segment is recognisable at a glance.
-LANGUAGE_COLORS = {
-    'TypeScript': '#3178c6', 'JavaScript': '#f1e05a', 'CSS': '#663399', 'HTML': '#e34c26',
-    'PLpgSQL': '#336790', 'SQL': '#e38c00', 'TSQL': '#e38c00', 'Python': '#3572a5', 'Java': '#b07219',
-    'C': '#555555', 'C++': '#f34b7d', 'C#': '#178600', 'Swift': '#f05138', 'Shell': '#89e051',
-    'Dockerfile': '#384d54', 'Jupyter Notebook': '#da5b0b', 'MDX': '#fcb32c', 'SCSS': '#c6538c',
+THEMES = {
+    'light': {
+        'text': GRAPHITE, 'muted': '#6f675c', 'rule': '#e2dbcf',
+        'panel': BONE, 'panel_text': GRAPHITE, 'panel_muted': '#6f675c',
+        'grid': 'rgba(18,18,18,0.07)', 'track': '#ece6dc',
+        'colors': dict(PALETTE),
+        'levels': ['#ece6dc', '#d6bb97', '#a87849', '#7a3b33', '#4B1E23'],
+    },
+    'dark': {
+        'text': BONE, 'muted': '#a39b8e', 'rule': '#2a303a',
+        'panel': '#1C2430', 'panel_text': BONE, 'panel_muted': '#a39b8e',
+        'grid': 'rgba(230,224,214,0.06)', 'track': '#1d232c',
+        # The same hues lifted so they read against GitHub's dark background.
+        'colors': {
+            'merlot': '#a5525b', 'olive': '#9a9f72', 'midnight': '#6a7a94',
+            'tobacco': '#c08a52', 'graphite': BONE,
+        },
+        'levels': ['#1d232c', '#4a3524', '#7d532b', '#c08a52', BONE],
+    },
 }
-FALLBACK_COLORS = ['#14b8a6', '#f59e0b', '#ec4899', '#22c55e']
 
 W = 880
 METRICS = {int(k): v for k, v in json.loads((FONTS / 'metrics.json').read_text()).items()}
@@ -133,13 +139,18 @@ def svg(width, height, body, weights, label):
     )
 
 
-def t(x, y, s, size, weight, fill, anchor='start', tracking=0.0, upper=False):
+def t(x, y, s, size, weight, fill, anchor='start', tracking=0.0, upper=False, opacity=None):
     s = s.upper() if upper else s
     ls = f' letter-spacing="{tracking * size:.2f}"' if tracking else ''
+    op = f' fill-opacity="{opacity}"' if opacity is not None else ''
     return (
         f'<text x="{x:.1f}" y="{y:.1f}" font-size="{size}" font-weight="{weight}" '
-        f'fill="{fill}" text-anchor="{anchor}"{ls}>{escape(s)}</text>'
+        f'fill="{fill}" text-anchor="{anchor}"{ls}{op}>{escape(s)}</text>'
     )
+
+
+def rect(x, y, w, h, fill, rx=0, extra=''):
+    return f'<rect x="{x:.1f}" y="{y:.1f}" width="{w:.1f}" height="{h:.1f}" rx="{rx}" fill="{fill}"{extra}/>'
 
 
 def arrow(x, y, size, stroke, width=1.6):
@@ -151,125 +162,134 @@ def arrow(x, y, size, stroke, width=1.6):
     )
 
 
+def palette_band(x, y, w, h, c):
+    order = ['merlot', 'olive', 'tobacco', 'midnight', 'graphite']
+    seg = w / len(order)
+    return ''.join(rect(x + i * seg, y, seg + 0.5, h, c['colors'][k]) for i, k in enumerate(order))
+
+
 # ---------------------------------------------------------------- STATIC
 
 def header(c):
-    h = 380
-    cell = 40
+    h, pad, cell = 420, 44, 40
     grid = ''.join(f'<path d="M{x} 0V{h}"/>' for x in range(0, W + 1, cell))
     grid += ''.join(f'<path d="M0 {y}H{W}"/>' for y in range(0, h + 1, cell))
     body = (
-        '<defs><radialGradient id="g" cx="0.72" cy="0.38" r="0.75">'
+        '<defs><clipPath id="card"><rect width="100%" height="100%" rx="22"/></clipPath>'
+        '<radialGradient id="g" cx="0.75" cy="0.35" r="0.7">'
         '<stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>'
         '</radialGradient><mask id="m"><rect width="100%" height="100%" fill="url(#g)"/></mask></defs>'
-        f'<g mask="url(#m)" stroke="{c["grid"]}" stroke-width="1">{grid}</g>'
-        + t(0, 34, 'SR', 18, 900, c['text'])
-        + t(W, 34, 'Portfolio', 13, 400, c['muted'], 'end', 0.18, True)
+        '<g clip-path="url(#card)">'
+        + rect(0, 0, W, h, c['panel'])
+        + f'<g mask="url(#m)" stroke="{c["grid"]}" stroke-width="1">{grid}</g>'
+        + palette_band(0, h - 8, W, 8, c)
+        + '</g>'
+        + t(pad, pad + 14, 'SR', 18, 900, c['panel_text'])
+        + t(W - pad, pad + 14, 'Portfolio', 13, 400, c['panel_muted'], 'end', 0.18, True)
     )
-    size = 132
+    size = 128
     for i, word in enumerate(NAME):
-        body += t(-6, 150 + i * size * 0.86, word, size, 900, c['text'], tracking=-0.03)
-    base = 340
-    lines = wrap(TAGLINE, 17, 300, 420)
+        body += t(pad - 5, 168 + i * size * 0.86, word, size, 900, c['panel_text'], tracking=-0.03)
+    base = h - pad - 14
+    lines = wrap(TAGLINE, 17, 300, 400)
     for i, line in enumerate(lines):
-        body += t(0, base - (len(lines) - 1 - i) * 24, line, 17, 300, c['muted'])
-    label_w = text_width(SITE_LABEL, 15, 400)
-    pill_w = label_w + 70
-    px = W - pill_w
+        body += t(pad, base - (len(lines) - 1 - i) * 24, line, 17, 300, c['panel_muted'])
+    pill_w = text_width(SITE_LABEL, 15, 400) + 70
+    px = W - pad - pill_w
     body += (
-        f'<rect x="{px + 0.5}" y="{base - 30.5}" width="{pill_w - 1}" height="44" rx="22" '
-        f'fill="none" stroke="{c["text"]}"/>'
-        + t(px + 24, base - 3, SITE_LABEL, 15, 400, c['text'])
-        + arrow(px + pill_w - 34, base - 15, 9, c['text'])
+        rect(px, base - 31, pill_w, 46, PALETTE['merlot'], 23)
+        + t(px + 24, base - 2, SITE_LABEL, 15, 400, BONE)
+        + arrow(px + pill_w - 34, base - 14, 9, BONE)
     )
     return svg(W, h, body, [300, 400, 900], f'Swarnim Rai: {TAGLINE} Visit {SITE_LABEL}')
 
 
-def link_pill(label, c):
-    size = 15
+def link_pill(label, color, c, dark):
+    size, h = 15, 44
     w = round(text_width(label, size, 400) + 64)
-    h = 44
+    border = f' stroke="{BONE}" stroke-opacity="0.18"' if dark else ''
     body = (
-        f'<rect x="0.5" y="0.5" width="{w - 1}" height="{h - 1}" rx="{h / 2}" '
-        f'fill="none" stroke="{c["text"]}"/>'
-        + t(22, 27.5, label, size, 400, c['text'])
-        + arrow(w - 32, 17, 9, c['text'])
+        rect(0.5, 0.5, w - 1, h - 1, PALETTE[color], h / 2, border)
+        + t(22, 27.5, label, size, 400, BONE)
+        + arrow(w - 32, 17, 9, BONE)
     )
     return svg(w, h, body, [400], label)
 
 
-def section_title(num, title, c):
-    h = 84
+def section_title(num, title, color, c):
+    h = 86
+    accent = c['colors'][color]
     body = (
-        t(0, 22, num, 13, 500, c['accent'], tracking=0.18)
+        t(0, 22, num, 13, 500, accent, tracking=0.18)
         + t(0, 64, title, 36, 500, c['text'], tracking=-0.02)
-        + f'<rect x="0" y="{h - 1}" width="{W}" height="1" fill="{c["rule"]}"/>'
+        + rect(0, h - 1, W, 1, c['rule'])
+        + rect(0, h - 3, 56, 3, accent)
     )
     return svg(W, h, body, [400, 500], f'{num} {title}')
 
 
-CARD_PAD = 30
+CARD_PAD = 34
 # A lone featured project spans the full width; otherwise cards sit two per row.
 CARD_W = W if len(PROJECTS) == 1 else 430
 
 
 def card_height():
-    body_lines = max(len(wrap(p['body'], 15, 300, CARD_W - CARD_PAD * 2)) for p in PROJECTS)
-    return 150 + body_lines * 23 + 64
+    body_lines = max(len(wrap(p['body'], 16, 300, CARD_W - CARD_PAD * 2)) for p in PROJECTS)
+    return 156 + body_lines * 25 + 74
 
 
 def project_card(i, p, c):
     w, h, pad = CARD_W, card_height(), CARD_PAD
+    fill = PALETTE[p.get('color', 'merlot')]
     body = (
-        f'<rect x="0.5" y="0.5" width="{w - 1}" height="{h - 1}" rx="18" fill="{c["surface"]}" '
-        f'stroke="{c["rule"]}"/>'
-        + t(pad, pad + 14, f'{i:02d}', 13, 400, c['muted'], tracking=0.18)
-        + t(pad + 34, pad + 14, p['kind'], 13, 500, c['accent'], tracking=0.18, upper=True)
-        + arrow(w - pad - 12, pad + 1, 12, c['text'], 1.8)
-        + t(pad, pad + 86, p['title'], 30, 500, c['text'], tracking=-0.02)
+        '<defs><clipPath id="card"><rect width="100%" height="100%" rx="20"/></clipPath></defs>'
+        f'<g clip-path="url(#card)">{rect(0, 0, w, h, fill)}</g>'
+        + t(pad, pad + 14, f'{i:02d}', 13, 400, BONE, tracking=0.18, opacity=0.6)
+        + t(pad + 34, pad + 14, p['kind'], 13, 500, BONE, tracking=0.18, upper=True, opacity=0.85)
+        + arrow(w - pad - 13, pad + 1, 13, BONE, 1.8)
+        + t(pad, pad + 92, p['title'], 40, 500, BONE, tracking=-0.02)
     )
-    for j, line in enumerate(wrap(p['body'], 15, 300, w - pad * 2)):
-        body += t(pad, pad + 124 + j * 23, line, 15, 300, c['muted'])
-    body += f'<rect x="{pad}" y="{h - pad - 30}" width="{w - pad * 2}" height="1" fill="{c["rule"]}"/>'
-    body += t(pad, h - pad, '   ·   '.join(p['stack']), 12, 400, c['text'], tracking=0.16, upper=True)
+    for j, line in enumerate(wrap(p['body'], 16, 300, w - pad * 2)):
+        body += t(pad, pad + 132 + j * 25, line, 16, 300, BONE, opacity=0.78)
+    x = pad
+    for item in p['stack']:
+        cw = text_width(item.upper(), 12, 500, 0.14) + 28
+        body += rect(x, h - pad - 30, cw, 30, 'none', 15, f' stroke="{BONE}" stroke-opacity="0.4"')
+        body += t(x + 14, h - pad - 10.5, item, 12, 500, BONE, tracking=0.14, upper=True)
+        x += cw + 8
     return svg(w, h, body, [300, 400, 500], f'{p["title"]}: {p["body"]}')
 
 
-def stack(c):
-    """One row per category; items wrap onto extra lines when they run past the right edge."""
-    item_x, gap, line_h, size = 270, 34, 32, 19
-    def fits(chunk):
-        return item_x + sum(text_width(i, size, 400) for i in chunk) + gap * (len(chunk) - 1) <= W
-
-    rows = []
-    for label, items in STACK:
-        # Use as few lines as possible, with the items split evenly between them (no lone orphan).
-        n = 1
-        while True:
-            per = -(-len(items) // n)
-            chunks = [items[k:k + per] for k in range(0, len(items), per)]
-            if all(fits(chunk) for chunk in chunks):
-                break
-            n += 1
-        lines = []
-        for chunk in chunks:
-            x, line = item_x, []
-            for item in chunk:
-                line.append((x, item))
-                x += text_width(item, size, 400) + gap
-            lines.append(line)
-        rows.append((label, lines))
-
+def stack(c, dark):
+    """One row per category; each item is a chip tinted with the category's colour."""
+    item_x, size, chip_h, chip_gap, line_gap, pad_y = 250, 15, 34, 8, 10, 18
+    tint = 0.24 if dark else 0.12
     body, y = '', 0
-    for label, lines in rows:
-        row_h = 64 + (len(lines) - 1) * line_h
-        body += t(0, y + 38, label, 12, 400, c['muted'], tracking=0.18, upper=True)
-        for k, line in enumerate(lines):
-            for x, item in line:
-                body += t(x, y + 39 + k * line_h, item, size, 400, c['text'])
-        body += f'<rect x="0" y="{y + row_h - 1}" width="{W}" height="1" fill="{c["rule"]}"/>'
+    for label, items, color in STACK:
+        accent = c['colors'][color]
+        lines, line, x = [], [], item_x
+        for item in items:
+            cw = text_width(item, size, 400) + 30
+            if line and x + cw > W:
+                lines.append(line)
+                line, x = [], item_x
+            line.append((x, cw, item))
+            x += cw + chip_gap
+        lines.append(line)
+        row_h = pad_y * 2 + len(lines) * chip_h + (len(lines) - 1) * line_gap
+        body += rect(0, y + pad_y + 12, 10, 10, accent, 2)
+        label_lines = wrap(label.upper(), 12, 400, 200)
+        for k, ll in enumerate(label_lines):
+            body += t(20, y + pad_y + 21.5 + k * 17, ll, 12, 400, c['muted'], tracking=0.16)
+        for k, ln in enumerate(lines):
+            cy = y + pad_y + k * (chip_h + line_gap)
+            for cx, cw, item in ln:
+                body += rect(cx, cy, cw, chip_h, accent, chip_h / 2,
+                             f' fill-opacity="{tint}" stroke="{accent}" stroke-opacity="0.45"')
+                body += t(cx + 15, cy + 22.5, item, size, 400, c['text'])
         y += row_h
-    alt = '; '.join(f'{label}: {", ".join(items)}' for label, items in STACK)
+        body += rect(0, y - 1, W, 1, c['rule'])
+    alt = '; '.join(f'{label}: {", ".join(items)}' for label, items, _ in STACK)
     return svg(W, y, body, [400], alt)
 
 
@@ -277,14 +297,15 @@ def build_static():
     out = ROOT / 'assets'
     out.mkdir(exist_ok=True)
     for name, c in THEMES.items():
+        dark = name == 'dark'
         files = {
             f'header-{name}.svg': header(c),
-            f'stack-{name}.svg': stack(c),
+            f'stack-{name}.svg': stack(c, dark),
         }
-        for slug, label in LINKS:
-            files[f'link-{slug}-{name}.svg'] = link_pill(label, c)
-        for slug, num, title in SECTIONS:
-            files[f'section-{slug}-{name}.svg'] = section_title(num, title, c)
+        for slug, label, color in LINKS:
+            files[f'link-{slug}-{name}.svg'] = link_pill(label, color, c, dark)
+        for slug, num, title, color in SECTIONS:
+            files[f'section-{slug}-{name}.svg'] = section_title(num, title, color, c)
         for i, p in enumerate(PROJECTS, 1):
             files[f'project-{p["slug"]}-{name}.svg'] = project_card(i, p, c)
         for fname, content in files.items():
@@ -299,7 +320,6 @@ query($login: String!) {
   user(login: $login) {
     createdAt
     pullRequests { totalCount }
-    repositoriesContributedTo(contributionTypes: [COMMIT, PULL_REQUEST, ISSUE, REPOSITORY]) { totalCount }
     repositories(first: 100, ownerAffiliations: OWNER, privacy: PUBLIC, isFork: false) {
       totalCount
       nodes {
@@ -312,6 +332,10 @@ query($login: String!) {
     }
     contributionsCollection {
       totalCommitContributions
+      totalPullRequestContributions
+      totalIssueContributions
+      totalPullRequestReviewContributions
+      totalRepositoryContributions
       restrictedContributionsCount
       contributionCalendar {
         totalContributions
@@ -323,6 +347,7 @@ query($login: String!) {
 """
 
 LEVELS = ['NONE', 'FIRST_QUARTILE', 'SECOND_QUARTILE', 'THIRD_QUARTILE', 'FOURTH_QUARTILE']
+LANGUAGE_ORDER = ['merlot', 'tobacco', 'olive', 'midnight', 'graphite']
 
 
 def fetch():
@@ -345,66 +370,119 @@ def fmt(n):
     return f'{n:,}'
 
 
-def stats(u, c, today):
-    cc = u['contributionsCollection']
-    repos = u['repositories']
-    metrics = [
-        (cc['contributionCalendar']['totalContributions'], 'Contributions', 'past year'),
-        (cc['totalCommitContributions'], 'Commits', 'past year'),
-        (u['pullRequests']['totalCount'], 'Pull requests', 'all time'),
-        (repos['totalCount'], 'Public repos', 'owned'),
-        (sum(r['stargazerCount'] for r in repos['nodes']), 'Stars', 'earned'),
-    ]
-    since = u['createdAt'][:4]
-    body = (
-        t(0, 16, f'@{USER}', 13, 400, c['muted'], tracking=0.12)
-        + t(W, 16, f'On GitHub since {since}  ·  Updated {today:%d %b %Y}', 13, 400, c['muted'], 'end', 0.04)
-    )
-    col = W / len(metrics)
-    for i, (value, label, note) in enumerate(metrics):
-        x = i * col
-        if i:
-            body += f'<rect x="{x - 0.5:.1f}" y="44" width="1" height="94" fill="{c["rule"]}"/>'
-        px = x + (0 if i == 0 else 24)
-        body += f'<rect x="{px:.1f}" y="52" width="18" height="3" rx="1.5" fill="{c["accent"]}"/>'
-        body += t(px, 104, fmt(value), 52, 500, c['text'], tracking=-0.03)
-        body += t(px, 132, label, 12, 400, c['text'], tracking=0.16, upper=True)
-        body += t(px + text_width(label.upper(), 12, 400, 0.16) + 8, 132, note, 12, 300, c['muted'])
+def label(x, y, s, c, anchor='start'):
+    return t(x, y, s, 12, 400, c['muted'], anchor, 0.16, True)
 
+
+def monthly(days, today):
+    counts = {}
+    for d in days:
+        counts[d['date'][:7]] = counts.get(d['date'][:7], 0) + d['contributionCount']
+    months, y, m = [], today.year, today.month
+    for _ in range(12):
+        months.append(dt.date(y, m, 1))
+        y, m = (y, m - 1) if m > 1 else (y - 1, 12)
+    return [(d, counts.get(f'{d:%Y-%m}', 0)) for d in reversed(months)]
+
+
+def languages(repos):
     sizes = {}
     for r in repos['nodes']:
         if r['name'] == USER:
             continue
         for e in r['languages']['edges']:
             sizes[e['node']['name']] = sizes.get(e['node']['name'], 0) + e['size']
-    total = sum(sizes.values())
     top = sorted(sizes.items(), key=lambda kv: -kv[1])
     if len(top) > 5:
         top = top[:4] + [('Other', sum(v for _, v in top[4:]))]
-    spare = iter(FALLBACK_COLORS)
-    shades = [c['other'] if name == 'Other' else LANGUAGE_COLORS.get(name) or next(spare, c['other'])
-              for name, _ in top]
-    y = 186
-    body += f'<rect x="0" y="{y - 22}" width="{W}" height="1" fill="{c["rule"]}"/>'
-    body += t(0, y + 8, 'Languages', 12, 400, c['muted'], tracking=0.18, upper=True)
-    body += t(W, y + 8, 'by bytes of code in public repos', 12, 300, c['muted'], 'end')
-    bar_y, x, gap = y + 28, 0.0, 3
-    usable = W - gap * (len(top) - 1)
-    for (name, size), fill in zip(top, shades):
-        seg = usable * size / total if total else 0
-        body += f'<rect x="{x:.1f}" y="{bar_y}" width="{max(seg, 2):.1f}" height="10" rx="2" fill="{fill}"/>'
-        x += seg + gap
+    return top, sum(sizes.values())
+
+
+def stats(u, c, today):
+    cc = u['contributionsCollection']
+    repos = u['repositories']
+    days = [d for w in cc['contributionCalendar']['weeks'] for d in w['contributionDays']]
+    stars = sum(r['stargazerCount'] for r in repos['nodes'])
+    body = (
+        t(0, 16, f'@{USER}  ·  {repos["totalCount"]} public repos  ·  {stars} stars', 13, 400, c['muted'], tracking=0.04)
+        + t(W, 16, f'On GitHub since {u["createdAt"][:4]}  ·  Updated {today:%d %b %Y}', 13, 400, c['muted'], 'end', 0.04)
+    )
+
+    # Monthly activity: one bar per month for the last year.
+    ax, aw, top_y, chart_h = 0, 520, 112, 150
+    data = monthly(days, today)
+    peak = max(v for _, v in data) or 1
+    slot = aw / len(data)
+    bar_w = slot * 0.56
+    body += label(ax, 60, 'Monthly activity', c) + t(aw, 60, 'last 12 months', 12, 300, c['muted'], 'end')
+    for k, (month, v) in enumerate(data):
+        bx = ax + k * slot + (slot - bar_w) / 2
+        bh = max(chart_h * v / peak, 0) if v else 0
+        body += rect(bx, top_y, bar_w, chart_h, c['track'], 4)
+        if v:
+            fill = c['colors']['merlot'] if v == peak else c['colors']['tobacco']
+            body += rect(bx, top_y + chart_h - bh, bar_w, bh, fill, 4)
+            body += t(bx + bar_w / 2, top_y + chart_h - bh - 8, str(v), 12, 500, c['text'], 'middle')
+        body += t(bx + bar_w / 2, top_y + chart_h + 20, f'{month:%b}', 11, 400, c['muted'], 'middle')
+
+    # Languages: a donut with a legend.
+    body += rect(560, 44, 1, 240, c['rule'])
+    lx = 600
+    top, total = languages(repos)
+    body += label(lx, 60, 'Languages', c)
+    cx, cy, r, sw = lx + 66, top_y + 72, 54, 18
+    circ = 2 * math.pi * r
+    body += f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="none" stroke="{c["track"]}" stroke-width="{sw}"/>'
+    offset, gap = 0.0, 2.5 if len(top) > 1 else 0
+    colors = [c['muted'] if n == 'Other' else c['colors'][LANGUAGE_ORDER[k % 5]] for k, (n, _) in enumerate(top)]
+    for (name, size), fill in zip(top, colors):
+        seg = circ * size / total if total else 0
+        dash = max(seg - gap, 0.5)
+        body += (
+            f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="none" stroke="{fill}" stroke-width="{sw}" '
+            f'stroke-dasharray="{dash:.2f} {circ:.2f}" stroke-dashoffset="{-offset:.2f}" '
+            f'transform="rotate(-90 {cx} {cy})"/>'
+        )
+        offset += seg
+    if top:
+        body += t(cx, cy + 6, f'{100 * top[0][1] / total:.0f}%', 20, 500, c['text'], 'middle')
+    for k, ((name, size), fill) in enumerate(zip(top, colors)):
+        yy = top_y + 10 + k * 28
+        body += rect(lx + 150, yy, 10, 10, fill, 2)
+        body += t(lx + 168, yy + 10, name, 14, 400, c['text'])
+        body += t(W, yy + 10, f'{100 * size / total:.1f}%', 14, 300, c['muted'], 'end')
+
+    # Contribution mix: what the year's activity was made of.
+    mix = [
+        ('Commits', cc['totalCommitContributions'], 'merlot'),
+        ('Pull requests', cc['totalPullRequestContributions'], 'tobacco'),
+        ('Reviews', cc['totalPullRequestReviewContributions'], 'olive'),
+        ('Issues', cc['totalIssueContributions'], 'midnight'),
+        ('New repos', cc['totalRepositoryContributions'], 'graphite'),
+    ]
+    my = 330
+    mix_total = sum(v for _, v, _ in mix)
+    body += rect(0, my - 26, W, 1, c['rule'])
+    body += label(0, my, 'Contribution mix', c) + t(W, my, 'past year', 12, 300, c['muted'], 'end')
+    # Segments are clipped to one rounded track so only the outer ends are rounded.
+    body += f'<defs><clipPath id="mix">{rect(0, my + 18, W, 14, "#000", 7)}</clipPath></defs>'
+    body += rect(0, my + 18, W, 14, c['track'], 7) + '<g clip-path="url(#mix)">'
+    x = 0.0
+    for name, v, key in mix:
+        if v:
+            seg = W * v / mix_total
+            body += rect(x, my + 18, seg - (2 if x + seg < W - 1 else 0), 14, c['colors'][key])
+            x += seg
+    body += '</g>'
     lx = 0.0
-    for (name, size), fill in zip(top, shades):
-        pct = f'{100 * size / total:.1f}%' if total else '-'
-        body += f'<rect x="{lx:.1f}" y="{bar_y + 34}" width="10" height="10" rx="2" fill="{fill}"/>'
-        body += t(lx + 18, bar_y + 44, name, 14, 400, c['text'])
+    for name, v, key in mix:
+        body += rect(lx, my + 52, 10, 10, c['colors'][key], 2)
+        body += t(lx + 18, my + 62, name, 14, 400, c['text'])
         nx = lx + 18 + text_width(name, 14, 400) + 7
-        body += t(nx, bar_y + 44, pct, 14, 300, c['muted'])
-        lx = nx + text_width(pct, 14, 300) + 30
-    h = bar_y + 56
-    alt = ', '.join(f'{v} {l.lower()}' for v, l, _ in metrics)
-    return svg(W, h, body, [300, 400, 500], f'GitHub stats: {alt}')
+        body += t(nx, my + 62, fmt(v), 14, 500, c['colors'][key])
+        lx = nx + text_width(fmt(v), 14, 500) + 34
+    h = my + 76
+    return svg(W, h, body, [300, 400, 500], 'GitHub stats: monthly activity, languages and contribution mix')
 
 
 def streaks(days, today):
@@ -432,16 +510,16 @@ def contributions(u, c, today):
 
     left, top, gap = 34, 92, 3
     cell = (W - left - gap * (len(weeks) - 1)) / len(weeks)
+    total = fmt(cal['totalContributions'])
     body = (
-        t(0, 40, fmt(cal['totalContributions']), 40, 500, c['text'], tracking=-0.03)
-        + t(text_width(fmt(cal['totalContributions']), 40, 500, -0.03) + 12, 40,
-            'contributions in the last year', 15, 300, c['muted'])
-        + t(W, 22, 'Current streak', 12, 400, c['muted'], 'end', 0.16, True)
-        + t(W, 42, plural(current, 'day'), 16, 500, c['accent'], 'end')
-        + t(W - 150, 22, 'Longest streak', 12, 400, c['muted'], 'end', 0.16, True)
-        + t(W - 150, 42, plural(longest, 'day'), 16, 500, c['accent'], 'end')
-        + t(W - 300, 22, 'Active days', 12, 400, c['muted'], 'end', 0.16, True)
-        + t(W - 300, 42, str(active), 16, 400, c['text'], 'end')
+        t(0, 40, total, 40, 500, c['colors']['merlot'], tracking=-0.03)
+        + t(text_width(total, 40, 500, -0.03) + 12, 40, 'contributions in the last year', 15, 300, c['muted'])
+        + label(W, 22, 'Current streak', c, 'end')
+        + t(W, 42, plural(current, 'day'), 16, 500, c['colors']['tobacco'], 'end')
+        + label(W - 150, 22, 'Longest streak', c, 'end')
+        + t(W - 150, 42, plural(longest, 'day'), 16, 500, c['colors']['tobacco'], 'end')
+        + label(W - 300, 22, 'Active days', c, 'end')
+        + t(W - 300, 42, str(active), 16, 500, c['colors']['olive'], 'end')
     )
     last_month = None
     for i, w in enumerate(weeks):
@@ -452,17 +530,14 @@ def contributions(u, c, today):
             last_month = first.month
         for d in w['contributionDays']:
             lvl = LEVELS.index(d['contributionLevel'])
-            body += (
-                f'<rect x="{left + i * (cell + gap):.2f}" y="{top + d["weekday"] * (cell + gap):.2f}" '
-                f'width="{cell:.2f}" height="{cell:.2f}" rx="2.5" fill="{c["levels"][lvl]}"/>'
-            )
-    for wd, label in ((1, 'Mon'), (3, 'Wed'), (5, 'Fri')):
-        body += t(0, top + wd * (cell + gap) + cell - 2.5, label, 11, 400, c['muted'])
+            body += rect(left + i * (cell + gap), top + d['weekday'] * (cell + gap), cell, cell, c['levels'][lvl], 2.5)
+    for wd, name in ((1, 'Mon'), (3, 'Wed'), (5, 'Fri')):
+        body += t(0, top + wd * (cell + gap) + cell - 2.5, name, 11, 400, c['muted'])
     ly = top + 7 * (cell + gap) + 22
     lx = W - 5 * (cell + gap) - 40
     body += t(lx - 8, ly + cell - 2.5, 'Less', 11, 400, c['muted'], 'end')
     for k, fill in enumerate(c['levels']):
-        body += f'<rect x="{lx + k * (cell + gap):.2f}" y="{ly:.2f}" width="{cell:.2f}" height="{cell:.2f}" rx="2.5" fill="{fill}"/>'
+        body += rect(lx + k * (cell + gap), ly, cell, cell, fill, 2.5)
     body += t(W, ly + cell - 2.5, 'More', 11, 400, c['muted'], 'end')
     h = ly + cell + 4
     alt = (f'{cal["totalContributions"]} contributions in the last year. '
