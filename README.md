@@ -1,14 +1,14 @@
-<a href="https://swarnimrai.vercel.app"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/header-dark.svg" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/header-light.svg" alt="Swarnim Rai, creative technologist. Visit swarnimrai.vercel.app" width="100%" /></picture></a>
+<a href="https://swarnimrai.vercel.app"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/header-dark.svg?v=3" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/header-light.svg?v=3" alt="Swarnim Rai, creative technologist. Visit swarnimrai.vercel.app" width="100%" /></picture></a>
 
 <p>
-<a href="https://linkedin.com/in/swarnimrai/"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/link-linkedin-dark.svg" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/link-linkedin-light.svg" alt="LinkedIn" /></picture></a>
-<a href="https://github.com/SR7D3V"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/link-github-dark.svg" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/link-github-light.svg" alt="GitHub" /></picture></a>
-<a href="mailto:swarnim7r@gmail.com"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/link-email-dark.svg" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/link-email-light.svg" alt="Email" /></picture></a>
+<a href="https://linkedin.com/in/swarnimrai/"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/link-linkedin-dark.svg?v=3" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/link-linkedin-light.svg?v=3" alt="LinkedIn" /></picture></a>
+<a href="https://github.com/SR7D3V"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/link-github-dark.svg?v=3" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/link-github-light.svg?v=3" alt="GitHub" /></picture></a>
+<a href="mailto:swarnim7r@gmail.com"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/link-email-dark.svg?v=3" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/link-email-light.svg?v=3" alt="Email" /></picture></a>
 </p>
 
 <br/>
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/section-about-dark.svg" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/section-about-light.svg" alt="01 About" width="100%" /></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/section-about-dark.svg?v=3" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/section-about-light.svg?v=3" alt="01 About" width="100%" /></picture>
 
 <!-- ABOUT: write your own text below. Plain markdown works here. -->
 
@@ -18,29 +18,24 @@ Currently: _what you're working on_ · Learning: _what you're learning_ · Open 
 
 <br/>
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/section-projects-dark.svg" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/section-projects-light.svg" alt="02 Featured Projects" width="100%" /></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/section-projects-dark.svg?v=3" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/section-projects-light.svg?v=3" alt="02 Featured Projects" width="100%" /></picture>
 
-<a href="https://github.com/SR7D3V/Lucid"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/project-lucid-dark.svg" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/project-lucid-light.svg" alt="Lucid: a multi-store clothing retail platform built with Next.js, TypeScript and PostgreSQL" width="100%" /></picture></a>
-
-<br/>
-
-<picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/section-stack-dark.svg" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/section-stack-light.svg" alt="03 Tech Stack" width="100%" /></picture>
-
-<picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/stack-dark.svg" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/stack-light.svg" alt="Programming languages: Java, Python, C, Swift, SQL. Frontend development: JavaScript, React, Next.js, GSAP, Web Animation, HTML, CSS. Backend development: MySQL, Oracle SQL, PostgreSQL, Schema Design, Query Optimization. Design: UI/UX Design, Graphic Design. Game development: Unreal Engine, Blender, Meta XR. Tools: Git, Jupyter, VS Code, Figma, Xcode, Swift Playgrounds." width="100%" /></picture>
+<a href="https://github.com/SR7D3V/Lucid"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/project-lucid-dark.svg?v=3" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/project-lucid-light.svg?v=3" alt="Lucid: a multi-store clothing retail platform built with Next.js, TypeScript and PostgreSQL" width="100%" /></picture></a>
 
 <br/>
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/section-stats-dark.svg" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/section-stats-light.svg" alt="04 GitHub Stats" width="100%" /></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/section-stack-dark.svg?v=3" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/section-stack-light.svg?v=3" alt="03 Tech Stack" width="100%" /></picture>
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/output/stats-dark.svg" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/output/stats-light.svg" alt="GitHub stats for SR7D3V" width="100%" /></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/stack-dark.svg?v=3" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/stack-light.svg?v=3" alt="Programming languages: Java, Python, C, Swift, SQL. Frontend development: JavaScript, React, Next.js, GSAP, Web Animation, HTML, CSS. Backend development: MySQL, Oracle SQL, PostgreSQL, Schema Design, Query Optimization. Design: UI/UX Design, Graphic Design. Game development: Unreal Engine, Blender, Meta XR. Tools: Git, Jupyter, VS Code, Figma, Xcode, Swift Playgrounds." width="100%" /></picture>
 
 <br/>
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/section-contributions-dark.svg" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/section-contributions-light.svg" alt="05 Contributions" width="100%" /></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/section-stats-dark.svg?v=3" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/section-stats-light.svg?v=3" alt="04 GitHub Stats" width="100%" /></picture>
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/output/contributions-dark.svg" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/output/contributions-light.svg" alt="Contribution calendar for the last year" width="100%" /></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/output/stats-dark.svg?v=3" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/output/stats-light.svg?v=3" alt="GitHub stats for SR7D3V" width="100%" /></picture>
+
 
 <!--
   Graphics are generated by scripts/build.py (edit the CONTENT block, run `python3 scripts/build.py static`).
-  Stats and contributions refresh daily via .github/workflows/stats.yml and live on the `output` branch.
+  Stats refresh daily via .github/workflows/stats.yml and live on the `output` branch.
 -->
