@@ -44,6 +44,7 @@ SECTIONS = [
 PROJECTS = [
     {
         'slug': 'lucid',
+        'url': 'https://github.com/SR7D3V/Lucid',
         'kind': 'Full-stack',
         'title': 'Lucid',
         'body': 'A multi-store clothing retail platform. 3NF PostgreSQL schema, concurrency-safe '
@@ -54,15 +55,33 @@ PROJECTS = [
     },
 ]
 
-# (category, items, palette colour)
+# (category, palette colour, [(name shown on hover, icon key from scripts/icons.json)])
 STACK = [
-    ('Programming Languages', ['Java', 'Python', 'C', 'Swift', 'SQL'], 'merlot'),
-    ('Frontend Development', ['JavaScript', 'React', 'Next.js', 'GSAP', 'Web Animation', 'HTML', 'CSS'], 'tobacco'),
-    ('Backend Development', ['MySQL', 'Oracle SQL', 'PostgreSQL', 'Schema Design', 'Query Optimization'], 'olive'),
-    ('Design', ['UI/UX Design', 'Graphic Design'], 'midnight'),
-    ('Game Development', ['Unreal Engine', 'Blender', 'Meta XR'], 'merlot'),
-    ('Tools', ['Git', 'Jupyter', 'VS Code', 'Figma', 'Xcode', 'Swift Playgrounds'], 'tobacco'),
+    ('Programming Languages', 'merlot', [
+        ('Java', 'java'), ('Python', 'python'), ('C', 'c'), ('Swift', 'swift'), ('SQL', 'sql'),
+    ]),
+    ('Frontend Development', 'tobacco', [
+        ('JavaScript', 'javascript'), ('React', 'react'), ('Next.js', 'nextjs'), ('GSAP', 'gsap'),
+        ('Web Animation', 'web-animation'), ('HTML', 'html'), ('CSS', 'css'),
+    ]),
+    ('Backend Development', 'olive', [
+        ('MySQL', 'mysql'), ('Oracle SQL', 'oracle'), ('PostgreSQL', 'postgresql'),
+        ('Schema Design', 'schema-design'), ('Query Optimization', 'query-optimization'),
+    ]),
+    ('Design', 'midnight', [
+        ('UI/UX Design', 'ui-ux'), ('Graphic Design', 'graphic-design'),
+    ]),
+    ('Game Development', 'merlot', [
+        ('Unreal Engine', 'unreal-engine'), ('Blender', 'blender'), ('Meta XR', 'meta'),
+    ]),
+    ('Tools', 'tobacco', [
+        ('Git', 'git'), ('Jupyter', 'jupyter'), ('VS Code', 'vscode'), ('Figma', 'figma'),
+        ('Xcode', 'xcode'), ('Swift Playgrounds', 'swift+play'),
+    ]),
 ]
+
+# Bump when graphics change so GitHub's image cache fetches the new files.
+VERSION = 4
 
 # ---------------------------------------------------------------- THEME
 
@@ -76,13 +95,13 @@ PALETTE = {
 THEMES = {
     'light': {
         'text': GRAPHITE, 'muted': '#6f675c', 'rule': '#e2dbcf',
-        'panel': BONE, 'panel_text': GRAPHITE, 'panel_muted': '#6f675c',
+        'bg': '#ffffff', 'panel': BONE, 'panel_text': GRAPHITE, 'panel_muted': '#6f675c',
         'grid': 'rgba(18,18,18,0.07)', 'track': '#ece6dc',
         'colors': dict(PALETTE),
     },
     'dark': {
         'text': BONE, 'muted': '#a39b8e', 'rule': '#2a303a',
-        'panel': '#1C2430', 'panel_text': BONE, 'panel_muted': '#a39b8e',
+        'bg': '#0d1117', 'panel': '#1C2430', 'panel_text': BONE, 'panel_muted': '#a39b8e',
         'grid': 'rgba(230,224,214,0.06)', 'track': '#1d232c',
         # The same hues lifted so they read against GitHub's dark background.
         'colors': {
@@ -158,9 +177,10 @@ def arrow(x, y, size, stroke, width=1.6):
     )
 
 
-def glass(x, y, w, h, ink):
+def glass(x, y, w, h, ink, rx=None):
     """A neutral, translucent pill: buttons and chips stay colourless so the palette isn't overused."""
-    return rect(x, y, w, h, ink, h / 2, f' fill-opacity="0.06" stroke="{ink}" stroke-opacity="0.24"')
+    return rect(x, y, w, h, ink, h / 2 if rx is None else rx,
+                f' fill-opacity="0.06" stroke="{ink}" stroke-opacity="0.24"')
 
 
 def palette_band(x, y, w, h, c):
@@ -228,67 +248,139 @@ def section_title(num, title, color, c):
     return svg(W, h, body, [400, 500], f'{num} {title}')
 
 
-CARD_PAD = 34
-# A lone featured project spans the full width; otherwise cards sit two per row.
-CARD_W = W if len(PROJECTS) == 1 else 430
+CARD_W, CARD_PAD = 300, 26
+
+
+def card_chips(stack):
+    """Lay the stack chips out left to right, wrapping when a row is full."""
+    rows, row, x = [], [], 0.0
+    for item in stack:
+        cw = text_width(item.upper(), 10, 500, 0.12) + 20
+        if row and x + cw > CARD_W - CARD_PAD * 2:
+            rows.append(row)
+            row, x = [], 0.0
+        row.append((x, cw, item))
+        x += cw + 6
+    return rows + [row]
 
 
 def card_height():
-    body_lines = max(len(wrap(p['body'], 16, 300, CARD_W - CARD_PAD * 2)) for p in PROJECTS)
-    return 156 + body_lines * 25 + 74
+    """Square cards, growing only if a description needs more room. All cards share one height."""
+    need = max(
+        118 + len(wrap(p['body'], 13.5, 300, CARD_W - CARD_PAD * 2)) * 20 + 18
+        + len(card_chips(p['stack'])) * 30 + CARD_PAD
+        for p in PROJECTS
+    )
+    return max(CARD_W, round(need))
 
 
 def project_card(i, p, c):
     w, h, pad = CARD_W, card_height(), CARD_PAD
     fill = PALETTE[p.get('color', 'merlot')]
     body = (
-        '<defs><clipPath id="card"><rect width="100%" height="100%" rx="20"/></clipPath></defs>'
+        '<defs><clipPath id="card"><rect width="100%" height="100%" rx="18"/></clipPath></defs>'
         f'<g clip-path="url(#card)">{rect(0, 0, w, h, fill)}</g>'
-        + t(pad, pad + 14, f'{i:02d}', 13, 400, BONE, tracking=0.18, opacity=0.6)
-        + t(pad + 34, pad + 14, p['kind'], 13, 500, BONE, tracking=0.18, upper=True, opacity=0.85)
-        + arrow(w - pad - 13, pad + 1, 13, BONE, 1.8)
-        + t(pad, pad + 92, p['title'], 40, 500, BONE, tracking=-0.02)
+        + t(pad, pad + 10, f'{i:02d}', 11, 400, BONE, tracking=0.16, opacity=0.6)
+        + t(pad + 26, pad + 10, p['kind'], 11, 500, BONE, tracking=0.16, upper=True, opacity=0.85)
+        + arrow(w - pad - 11, pad, 11, BONE, 1.6)
+        + t(pad, pad + 70, p['title'], 32, 500, BONE, tracking=-0.02)
     )
-    for j, line in enumerate(wrap(p['body'], 16, 300, w - pad * 2)):
-        body += t(pad, pad + 132 + j * 25, line, 16, 300, BONE, opacity=0.78)
-    x = pad
-    for item in p['stack']:
-        cw = text_width(item.upper(), 12, 500, 0.14) + 28
-        body += rect(x, h - pad - 30, cw, 30, 'none', 15, f' stroke="{BONE}" stroke-opacity="0.4"')
-        body += t(x + 14, h - pad - 10.5, item, 12, 500, BONE, tracking=0.14, upper=True)
-        x += cw + 8
+    for j, line in enumerate(wrap(p['body'], 13.5, 300, w - pad * 2)):
+        body += t(pad, pad + 100 + j * 20, line, 13.5, 300, BONE, opacity=0.78)
+    rows = card_chips(p['stack'])
+    for k, row in enumerate(reversed(rows)):
+        cy = h - pad - 24 - k * 30
+        for x, cw, item in row:
+            body += rect(pad + x, cy, cw, 24, 'none', 12, f' stroke="{BONE}" stroke-opacity="0.4"')
+            body += t(pad + x + 10, cy + 16, item, 10, 500, BONE, tracking=0.12, upper=True)
     return svg(w, h, body, [300, 400, 500], f'{p["title"]}: {p["body"]}')
 
 
-def stack(c):
-    """One row per category, marked with the category's colour; items are neutral chips."""
-    item_x, size, chip_h, chip_gap, line_gap, pad_y = 250, 15, 34, 8, 10, 18
-    body, y = '', 0
-    for label, items, color in STACK:
-        accent = c['colors'][color]
-        lines, line, x = [], [], item_x
-        for item in items:
-            cw = text_width(item, size, 400) + 30
-            if line and x + cw > W:
-                lines.append(line)
-                line, x = [], item_x
-            line.append((x, cw, item))
-            x += cw + chip_gap
-        lines.append(line)
-        row_h = pad_y * 2 + len(lines) * chip_h + (len(lines) - 1) * line_gap
-        body += rect(0, y + pad_y + 12, 10, 10, accent, 2)
-        label_lines = wrap(label.upper(), 12, 400, 200)
-        for k, ll in enumerate(label_lines):
-            body += t(20, y + pad_y + 21.5 + k * 17, ll, 12, 400, c['muted'], tracking=0.16)
-        for k, ln in enumerate(lines):
-            cy = y + pad_y + k * (chip_h + line_gap)
-            for cx, cw, item in ln:
-                body += glass(cx + 0.5, cy + 0.5, cw - 1, chip_h - 1, c['text'])
-                body += t(cx + 15, cy + 22.5, item, size, 400, c['text'])
-        y += row_h
-        body += rect(0, y - 1, W, 1, c['rule'])
-    alt = '; '.join(f'{label}: {", ".join(items)}' for label, items, _ in STACK)
-    return svg(W, y, body, [400], alt)
+ICONS = json.loads((ROOT / 'scripts' / 'icons.json').read_text())
+# Oracle's wordmark is a thin strip; at tile size only its O mark stays legible, so crop to that.
+ICONS['oracle']['viewBox'] = '-0.6 50.1 27.8 27.8'
+TILE, GLYPH = 56, 26
+
+
+def glyph(key, x, y, size, ink):
+    icon = ICONS[key]
+    shapes = ''.join(
+        f'<{tag} ' + ' '.join(f'{k}="{escape(v)}"' for k, v in attrs.items()) + '/>'
+        for tag, attrs in icon['shapes']
+    )
+    if icon['mode'] == 'stroke':
+        paint = f'fill="none" stroke="{ink}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"'
+    else:
+        paint = f'fill="{ink}"'
+    return (f'<svg x="{x}" y="{y}" width="{size}" height="{size}" viewBox="{icon["viewBox"]}">'
+            f'<g {paint}>{shapes}</g></svg>')
+
+
+def icon_tile(key, name, c):
+    base, _, badge = key.partition('+')
+    o = (TILE - GLYPH) / 2
+    body = glass(0.5, 0.5, TILE - 1, TILE - 1, c['text'], 16)
+    body += glyph(base, o, o, GLYPH, c['text'])
+    if badge == 'play':
+        # Swift Playgrounds: the Swift mark with a small play badge.
+        bx, by = TILE - 17, TILE - 17
+        body += (f'<circle cx="{bx}" cy="{by}" r="8" fill="{c["text"]}"/>'
+                 f'<path d="M{bx - 2.5} {by - 4}L{bx + 4} {by}L{bx - 2.5} {by + 4}Z" fill="{c["bg"]}"/>')
+    return svg(TILE, TILE, body, [], name)
+
+
+def stack_label(label, color, c):
+    w = 230
+    body = rect(0, TILE / 2 - 5, 10, 10, c['colors'][color], 2)
+    lines = wrap(label.upper(), 12, 400, w - 30)
+    top = TILE / 2 + 4.5 - (len(lines) - 1) * 8.5
+    for k, line in enumerate(lines):
+        body += t(20, top + k * 17, line, 12, 400, c['muted'], tracking=0.16)
+    return svg(w, TILE, body, [400], label)
+
+
+def rule(c):
+    return svg(W, 1, rect(0, 0, W, 1, c['rule']), [], '')
+
+
+def slugify(s):
+    return ''.join(ch if ch.isalnum() else '-' for ch in s.lower()).strip('-')
+
+
+RAW = f'https://raw.githubusercontent.com/{USER}/{USER}/main/assets'
+
+
+def picture(name, alt, width=None, title=None):
+    w = f' width="{width}"' if width else ''
+    tt = f' title="{escape(title)}"' if title else ''
+    return (f'<picture><source media="(prefers-color-scheme: dark)" srcset="{RAW}/{name}-dark.svg?v={VERSION}" />'
+            f'<img src="{RAW}/{name}-light.svg?v={VERSION}" alt="{escape(alt)}"{tt}{w} /></picture>')
+
+
+def readme_projects():
+    cards = [f'<a href="{p["url"]}">{picture("project-" + p["slug"], p["title"] + ": " + p["body"], "32%")}</a>'
+             for p in PROJECTS]
+    rows = ['<p>\n' + '\n'.join(cards[k:k + 3]) + '\n</p>' for k in range(0, len(cards), 3)]
+    return '\n'.join(rows)
+
+
+def readme_stack():
+    rows = []
+    for label, _, items in STACK:
+        tiles = [picture(f'icon-{slugify(name)}', name, title=name) for name, _ in items]
+        rows.append('<p>\n' + picture(f'stack-{slugify(label)}', label) + '\n' + '\n'.join(tiles) + '\n</p>')
+    return f'\n{picture("rule", "", "100%")}\n'.join(rows)
+
+
+def fill_readme():
+    path = ROOT / 'README.md'
+    text = path.read_text()
+    for key, block in (('projects', readme_projects()), ('stack', readme_stack())):
+        start, end = f'<!-- {key}:start -->', f'<!-- {key}:end -->'
+        before, rest = text.split(start, 1)
+        _, after = rest.split(end, 1)
+        text = f'{before}{start}\n{block}\n{end}{after}'
+    path.write_text(text)
 
 
 def build_static():
@@ -297,7 +389,7 @@ def build_static():
     for name, c in THEMES.items():
         files = {
             f'header-{name}.svg': header(c),
-            f'stack-{name}.svg': stack(c),
+            f'rule-{name}.svg': rule(c),
         }
         for slug, label in LINKS:
             files[f'link-{slug}-{name}.svg'] = link_pill(label, c)
@@ -305,9 +397,14 @@ def build_static():
             files[f'section-{slug}-{name}.svg'] = section_title(num, title, color, c)
         for i, p in enumerate(PROJECTS, 1):
             files[f'project-{p["slug"]}-{name}.svg'] = project_card(i, p, c)
+        for label, color, items in STACK:
+            files[f'stack-{slugify(label)}-{name}.svg'] = stack_label(label, color, c)
+            for item, key in items:
+                files[f'icon-{slugify(item)}-{name}.svg'] = icon_tile(key, item, c)
         for fname, content in files.items():
             (out / fname).write_text(content)
-    print(f'wrote static graphics to {out}')
+    fill_readme()
+    print(f'wrote static graphics to {out} and updated README.md')
 
 
 # ---------------------------------------------------------------- LIVE
