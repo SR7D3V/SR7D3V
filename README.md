@@ -20,20 +20,13 @@ Currently: _what you're working on_ · Learning: _what you're learning_ · Open 
 
 <picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/section-projects-dark.svg" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/section-projects-light.svg" alt="02 Featured Projects" width="100%" /></picture>
 
-<p>
-<a href="https://swarnimrai.vercel.app"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/project-portfolio-dark.svg" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/project-portfolio-light.svg" alt="Portfolio Website" width="49%" /></picture></a>
-<a href="https://github.com/SR7D3V/Lucid"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/project-lucid-dark.svg" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/project-lucid-light.svg" alt="Lucid" width="49%" /></picture></a>
-</p>
-<p>
-<a href="https://swarnimrai.vercel.app/#game-dev"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/project-infinite-rodeo-dark.svg" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/project-infinite-rodeo-light.svg" alt="Infinite Rodeo" width="49%" /></picture></a>
-<a href="https://swarnimrai.vercel.app/#featured"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/project-horizons-dark.svg" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/project-horizons-light.svg" alt="Featured Horizons" width="49%" /></picture></a>
-</p>
+<a href="https://github.com/SR7D3V/Lucid"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/project-lucid-dark.svg" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/project-lucid-light.svg" alt="Lucid: a multi-store clothing retail platform built with Next.js, TypeScript and PostgreSQL" width="100%" /></picture></a>
 
 <br/>
 
 <picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/section-stack-dark.svg" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/section-stack-light.svg" alt="03 Tech Stack" width="100%" /></picture>
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/stack-dark.svg" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/stack-light.svg" alt="Languages: TypeScript, JavaScript, SQL, HTML, CSS. Frontend: React, Next.js, GSAP, Vite. Backend and data: Node.js, Express, PostgreSQL, Zod. Game development: Unreal Engine. Tooling: Git, Docker, Vitest, Vercel." width="100%" /></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/stack-dark.svg" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/stack-light.svg" alt="Programming languages: Java, Python, C, Swift, SQL. Frontend development: JavaScript, React, Next.js, GSAP, Web Animation, HTML, CSS. Backend development: MySQL, Oracle SQL, PostgreSQL, Schema Design, Query Optimization. Design: UI/UX Design, Graphic Design. Game development: Unreal Engine, Blender, Meta XR. Tools: Git, Jupyter, VS Code, Figma, Xcode, Swift Playgrounds." width="100%" /></picture>
 
 <br/>
 

@@ -42,15 +42,6 @@ SECTIONS = [
 
 PROJECTS = [
     {
-        'slug': 'portfolio',
-        'kind': 'Web',
-        'title': 'Portfolio Website',
-        'body': 'A monochrome, scroll-driven portfolio. A custom SR preloader zooms through the '
-                'wordmark to reveal the page, with smooth scrolling, a pinned horizontal gallery '
-                'and reduced-motion support.',
-        'stack': ['React', 'Vite', 'GSAP'],
-    },
-    {
         'slug': 'lucid',
         'kind': 'Full-stack',
         'title': 'Lucid',
@@ -59,30 +50,15 @@ PROJECTS = [
                 'full-text search.',
         'stack': ['Next.js', 'TypeScript', 'PostgreSQL'],
     },
-    {
-        'slug': 'infinite-rodeo',
-        'kind': 'Game',
-        'title': 'Infinite Rodeo',
-        'body': 'A fast-paced arcade endless runner. Dodge dynamic obstacles, gather collectibles '
-                'and survive levels that keep getting harder while chasing the high score.',
-        'stack': ['Unreal Engine'],
-    },
-    {
-        'slug': 'horizons',
-        'kind': 'Environment Art',
-        'title': 'Featured Horizons',
-        'body': 'Environment studies in procedural foliage, desert terrain sculpting and landscape '
-                'composition, built through lighting, scale and material blending.',
-        'stack': ['Unreal Engine'],
-    },
 ]
 
 STACK = [
-    ('Languages', ['TypeScript', 'JavaScript', 'SQL', 'HTML', 'CSS']),
-    ('Frontend', ['React', 'Next.js', 'GSAP', 'Vite']),
-    ('Backend & Data', ['Node.js', 'Express', 'PostgreSQL', 'Zod']),
-    ('Game Development', ['Unreal Engine']),
-    ('Tooling', ['Git', 'Docker', 'Vitest', 'Vercel']),
+    ('Programming Languages', ['Java', 'Python', 'C', 'Swift', 'SQL']),
+    ('Frontend Development', ['JavaScript', 'React', 'Next.js', 'GSAP', 'Web Animation', 'HTML', 'CSS']),
+    ('Backend Development', ['MySQL', 'Oracle SQL', 'PostgreSQL', 'Schema Design', 'Query Optimization']),
+    ('Design', ['UI/UX Design', 'Graphic Design']),
+    ('Game Development', ['Unreal Engine', 'Blender', 'Meta XR']),
+    ('Tools', ['Git', 'Jupyter', 'VS Code', 'Figma', 'Xcode', 'Swift Playgrounds']),
 ]
 
 # ---------------------------------------------------------------- THEME
@@ -91,14 +67,28 @@ THEMES = {
     'light': {
         'text': '#111111', 'muted': '#696969', 'faint': '#a3a3a0',
         'rule': '#e3e3e0', 'surface': '#f3f3f1', 'grid': 'rgba(0,0,0,0.09)',
-        'levels': ['#ececea', '#c4c4c1', '#8f8f8c', '#555553', '#111111'],
+        'accent': '#4f46e5',
+        # Contribution levels: empty, then a single-hue indigo ramp.
+        'levels': ['#ececea', '#c7d2fe', '#818cf8', '#4f46e5', '#312e81'],
+        'other': '#c4c4c1',
     },
     'dark': {
         'text': '#f0f0ee', 'muted': '#9a9a97', 'faint': '#5f5f5c',
         'rule': '#2a2d31', 'surface': '#161a1f', 'grid': 'rgba(255,255,255,0.07)',
-        'levels': ['#1b1f24', '#3b3e42', '#6d6f71', '#a9aaa9', '#f0f0ee'],
+        'accent': '#818cf8',
+        'levels': ['#1b1f24', '#2e2a6b', '#4338ca', '#6366f1', '#a5b4fc'],
+        'other': '#5f5f5c',
     },
 }
+
+# GitHub's own language colours (github-linguist), so each segment is recognisable at a glance.
+LANGUAGE_COLORS = {
+    'TypeScript': '#3178c6', 'JavaScript': '#f1e05a', 'CSS': '#663399', 'HTML': '#e34c26',
+    'PLpgSQL': '#336790', 'SQL': '#e38c00', 'TSQL': '#e38c00', 'Python': '#3572a5', 'Java': '#b07219',
+    'C': '#555555', 'C++': '#f34b7d', 'C#': '#178600', 'Swift': '#f05138', 'Shell': '#89e051',
+    'Dockerfile': '#384d54', 'Jupyter Notebook': '#da5b0b', 'MDX': '#fcb32c', 'SCSS': '#c6538c',
+}
+FALLBACK_COLORS = ['#14b8a6', '#f59e0b', '#ec4899', '#22c55e']
 
 W = 880
 METRICS = {int(k): v for k, v in json.loads((FONTS / 'metrics.json').read_text()).items()}
@@ -211,14 +201,16 @@ def link_pill(label, c):
 def section_title(num, title, c):
     h = 84
     body = (
-        t(0, 22, num, 13, 400, c['muted'], tracking=0.18)
+        t(0, 22, num, 13, 500, c['accent'], tracking=0.18)
         + t(0, 64, title, 36, 500, c['text'], tracking=-0.02)
         + f'<rect x="0" y="{h - 1}" width="{W}" height="1" fill="{c["rule"]}"/>'
     )
     return svg(W, h, body, [400, 500], f'{num} {title}')
 
 
-CARD_W, CARD_PAD = 430, 30
+CARD_PAD = 30
+# A lone featured project spans the full width; otherwise cards sit two per row.
+CARD_W = W if len(PROJECTS) == 1 else 430
 
 
 def card_height():
@@ -232,7 +224,7 @@ def project_card(i, p, c):
         f'<rect x="0.5" y="0.5" width="{w - 1}" height="{h - 1}" rx="18" fill="{c["surface"]}" '
         f'stroke="{c["rule"]}"/>'
         + t(pad, pad + 14, f'{i:02d}', 13, 400, c['muted'], tracking=0.18)
-        + t(pad + 34, pad + 14, p['kind'], 13, 400, c['muted'], tracking=0.18, upper=True)
+        + t(pad + 34, pad + 14, p['kind'], 13, 500, c['accent'], tracking=0.18, upper=True)
         + arrow(w - pad - 12, pad + 1, 12, c['text'], 1.8)
         + t(pad, pad + 86, p['title'], 30, 500, c['text'], tracking=-0.02)
     )
@@ -244,19 +236,41 @@ def project_card(i, p, c):
 
 
 def stack(c):
-    row = 64
-    h = row * len(STACK)
-    body = ''
-    for i, (label, items) in enumerate(STACK):
-        y = i * row
+    """One row per category; items wrap onto extra lines when they run past the right edge."""
+    item_x, gap, line_h, size = 270, 34, 32, 19
+    def fits(chunk):
+        return item_x + sum(text_width(i, size, 400) for i in chunk) + gap * (len(chunk) - 1) <= W
+
+    rows = []
+    for label, items in STACK:
+        # Use as few lines as possible, with the items split evenly between them (no lone orphan).
+        n = 1
+        while True:
+            per = -(-len(items) // n)
+            chunks = [items[k:k + per] for k in range(0, len(items), per)]
+            if all(fits(chunk) for chunk in chunks):
+                break
+            n += 1
+        lines = []
+        for chunk in chunks:
+            x, line = item_x, []
+            for item in chunk:
+                line.append((x, item))
+                x += text_width(item, size, 400) + gap
+            lines.append(line)
+        rows.append((label, lines))
+
+    body, y = '', 0
+    for label, lines in rows:
+        row_h = 64 + (len(lines) - 1) * line_h
         body += t(0, y + 38, label, 12, 400, c['muted'], tracking=0.18, upper=True)
-        x = 250
-        for item in items:
-            body += t(x, y + 39, item, 19, 400, c['text'])
-            x += text_width(item, 19, 400) + 34
-        body += f'<rect x="0" y="{y + row - 1}" width="{W}" height="1" fill="{c["rule"]}"/>'
+        for k, line in enumerate(lines):
+            for x, item in line:
+                body += t(x, y + 39 + k * line_h, item, size, 400, c['text'])
+        body += f'<rect x="0" y="{y + row_h - 1}" width="{W}" height="1" fill="{c["rule"]}"/>'
+        y += row_h
     alt = '; '.join(f'{label}: {", ".join(items)}' for label, items in STACK)
-    return svg(W, h, body, [400], alt)
+    return svg(W, y, body, [400], alt)
 
 
 def build_static():
@@ -352,6 +366,7 @@ def stats(u, c, today):
         if i:
             body += f'<rect x="{x - 0.5:.1f}" y="44" width="1" height="94" fill="{c["rule"]}"/>'
         px = x + (0 if i == 0 else 24)
+        body += f'<rect x="{px:.1f}" y="52" width="18" height="3" rx="1.5" fill="{c["accent"]}"/>'
         body += t(px, 104, fmt(value), 52, 500, c['text'], tracking=-0.03)
         body += t(px, 132, label, 12, 400, c['text'], tracking=0.16, upper=True)
         body += t(px + text_width(label.upper(), 12, 400, 0.16) + 8, 132, note, 12, 300, c['muted'])
@@ -366,7 +381,9 @@ def stats(u, c, today):
     top = sorted(sizes.items(), key=lambda kv: -kv[1])
     if len(top) > 5:
         top = top[:4] + [('Other', sum(v for _, v in top[4:]))]
-    shades = c['levels'][::-1][:len(top)]
+    spare = iter(FALLBACK_COLORS)
+    shades = [c['other'] if name == 'Other' else LANGUAGE_COLORS.get(name) or next(spare, c['other'])
+              for name, _ in top]
     y = 186
     body += f'<rect x="0" y="{y - 22}" width="{W}" height="1" fill="{c["rule"]}"/>'
     body += t(0, y + 8, 'Languages', 12, 400, c['muted'], tracking=0.18, upper=True)
@@ -420,9 +437,9 @@ def contributions(u, c, today):
         + t(text_width(fmt(cal['totalContributions']), 40, 500, -0.03) + 12, 40,
             'contributions in the last year', 15, 300, c['muted'])
         + t(W, 22, 'Current streak', 12, 400, c['muted'], 'end', 0.16, True)
-        + t(W, 42, plural(current, 'day'), 16, 400, c['text'], 'end')
+        + t(W, 42, plural(current, 'day'), 16, 500, c['accent'], 'end')
         + t(W - 150, 22, 'Longest streak', 12, 400, c['muted'], 'end', 0.16, True)
-        + t(W - 150, 42, plural(longest, 'day'), 16, 400, c['text'], 'end')
+        + t(W - 150, 42, plural(longest, 'day'), 16, 500, c['accent'], 'end')
         + t(W - 300, 22, 'Active days', 12, 400, c['muted'], 'end', 0.16, True)
         + t(W - 300, 42, str(active), 16, 400, c['text'], 'end')
     )
