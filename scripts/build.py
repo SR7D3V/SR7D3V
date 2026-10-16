@@ -105,7 +105,7 @@ STACK = [
 ]
 
 # Bump when graphics change so GitHub's image cache fetches the new files.
-VERSION = 7
+VERSION = 8
 
 # ---------------------------------------------------------------- THEME
 
