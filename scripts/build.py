@@ -25,7 +25,9 @@ USER = 'SR7D3V'
 SITE = 'https://swarnimrai.vercel.app'
 SITE_LABEL = 'swarnimrai.vercel.app'
 NAME = ['SWARNIM', 'RAI']
-TAGLINE = 'A creative technologist exploring design, game development, and digital experiences.'
+# Lines break where the portfolio's hero breaks them.
+TAGLINE_LINES = ['I like to design, develop,', 'and deliver digital experiences.']
+TAGLINE = ' '.join(TAGLINE_LINES)
 
 LINKS = [
     ('linkedin', 'LinkedIn'),
@@ -255,7 +257,7 @@ def header(c):
     )
 
     # Tagline, small, top left (where the footer keeps its contact line).
-    for i, line in enumerate(wrap(TAGLINE, 15, 300, 330)):
+    for i, line in enumerate(TAGLINE_LINES):
         body += t(pad, pad + 14 + i * 22, line, 15, 300, FOOTER_MUTED)
 
     # SWARNIM over RAI, right-aligned like the footer.
