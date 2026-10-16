@@ -1,14 +1,14 @@
-<a href="https://swarnimrai.vercel.app"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/header-dark.svg?v=6" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/header-light.svg?v=6" alt="Swarnim Rai, creative technologist. Visit swarnimrai.vercel.app" width="100%" /></picture></a>
+<a href="https://swarnimrai.vercel.app"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/header-dark.svg?v=8" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/header-light.svg?v=8" alt="Swarnim Rai, creative technologist. Visit swarnimrai.vercel.app" width="100%" /></picture></a>
 
 <p>
-<a href="https://linkedin.com/in/swarnimrai/"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/link-linkedin-dark.svg?v=6" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/link-linkedin-light.svg?v=6" alt="LinkedIn" /></picture></a>
-<a href="https://github.com/SR7D3V"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/link-github-dark.svg?v=6" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/link-github-light.svg?v=6" alt="GitHub" /></picture></a>
-<a href="mailto:swarnim7r@gmail.com"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/link-email-dark.svg?v=6" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/link-email-light.svg?v=6" alt="Email" /></picture></a>
+<a href="https://linkedin.com/in/swarnimrai/"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/link-linkedin-dark.svg?v=8" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/link-linkedin-light.svg?v=8" alt="LinkedIn" /></picture></a>
+<a href="https://github.com/SR7D3V"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/link-github-dark.svg?v=8" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/link-github-light.svg?v=8" alt="GitHub" /></picture></a>
+<a href="mailto:swarnim7r@gmail.com"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/link-email-dark.svg?v=8" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/link-email-light.svg?v=8" alt="Email" /></picture></a>
 </p>
 
 <br/>
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/section-about-dark.svg?v=6" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/section-about-light.svg?v=6" alt="01 About" width="100%" /></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/section-about-dark.svg?v=8" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/section-about-light.svg?v=8" alt="01 About" width="100%" /></picture>
 
 <!-- ABOUT: write your own text below. Plain markdown works here. -->
 
@@ -16,7 +16,7 @@ I’m Swarnim, exploring the intersection of design and technology through XR, f
 
 <br/>
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/section-projects-dark.svg?v=6" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/section-projects-light.svg?v=6" alt="02 Featured Projects" width="100%" /></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/section-projects-dark.svg?v=8" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/section-projects-light.svg?v=8" alt="02 Featured Projects" width="100%" /></picture>
 
 <!-- projects:start -->
 <p>
@@ -26,7 +26,7 @@ I’m Swarnim, exploring the intersection of design and technology through XR, f
 
 <br/>
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/section-stack-dark.svg?v=6" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/section-stack-light.svg?v=6" alt="03 Tech Stack" width="100%" /></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/section-stack-dark.svg?v=8" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/section-stack-light.svg?v=8" alt="03 Tech Stack" width="100%" /></picture>
 
 <!-- stack:start -->
 <p>
@@ -84,9 +84,9 @@ I’m Swarnim, exploring the intersection of design and technology through XR, f
 
 <br/>
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/section-stats-dark.svg?v=6" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/section-stats-light.svg?v=6" alt="04 GitHub Stats" width="100%" /></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/section-stats-dark.svg?v=8" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/main/assets/section-stats-light.svg?v=8" alt="04 GitHub Stats" width="100%" /></picture>
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/output/stats-dark.svg?v=6" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/output/stats-light.svg?v=6" alt="GitHub stats for SR7D3V" width="100%" /></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SR7D3V/SR7D3V/output/stats-dark.svg?v=8" /><img src="https://raw.githubusercontent.com/SR7D3V/SR7D3V/output/stats-light.svg?v=8" alt="GitHub stats for SR7D3V" width="100%" /></picture>
 
 
 <!--

@@ -7,6 +7,7 @@ Edit the CONTENT block below, then re-run `static`. Standard library only.
 """
 
 import base64
+import re
 import datetime as dt
 import json
 import math
@@ -471,6 +472,9 @@ def fill_readme():
         before, rest = text.split(start, 1)
         _, after = rest.split(end, 1)
         text = f'{before}{start}\n{block}\n{end}{after}'
+    # Every image link carries the version, so GitHub's image cache refetches
+    # them all when the graphics change (hand-written links included).
+    text = re.sub(r'(\.svg)\?v=\d+', rf'\1?v={VERSION}', text)
     path.write_text(text)
 
 
