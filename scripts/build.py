@@ -103,7 +103,7 @@ STACK = [
 ]
 
 # Bump when graphics change so GitHub's image cache fetches the new files.
-VERSION = 6
+VERSION = 7
 
 # ---------------------------------------------------------------- THEME
 
@@ -213,35 +213,64 @@ def palette_band(x, y, w, h, c):
 
 # ---------------------------------------------------------------- STATIC
 
+# The header mirrors the portfolio's footer: a black card, an ASCII rose
+# growing out of the bottom-left corner (scripts/rose.py builds it) and the
+# name stacked on the right. Same card in light and dark themes.
+FOOTER_BG, FOOTER_INK, FOOTER_MUTED = '#0b0b0b', '#f0f0ee', '#8f897f'
+ROSE = json.loads((ROOT / 'assets' / 'rose-ascii.json').read_text())
+
+
+def rose_ascii(x0, y0, width):
+    """The rose's characters, one <text> per row and colour, each glyph on its cell."""
+    cols, rows = ROSE['cols'], ROSE['rows']
+    cell = width / cols
+    runs = {}
+    for col, row, char, color in ROSE['cells']:
+        runs.setdefault((row, color), []).append((col, char))
+    out = [f'<g font-family="ui-monospace,Menlo,Consolas,monospace" font-size="{cell * 0.9:.2f}" '
+           f'text-anchor="middle">']
+    for (row, color), glyphs in sorted(runs.items()):
+        xs = ' '.join(f'{x0 + (col + 0.5) * cell:.1f}' for col, _ in glyphs)
+        text = escape(''.join(ch for _, ch in glyphs))
+        out.append(f'<text x="{xs}" y="{y0 + row * cell + cell * 0.8:.1f}" fill="{color}" '
+                   f'xml:space="preserve">{text}</text>')
+    out.append('</g>')
+    return ''.join(out), rows * cell
+
+
 def header(c):
-    h, pad, cell = 420, 44, 40
-    grid = ''.join(f'<path d="M{x} 0V{h}"/>' for x in range(0, W + 1, cell))
-    grid += ''.join(f'<path d="M0 {y}H{W}"/>' for y in range(0, h + 1, cell))
+    h, pad = 420, 44
+    rose_w = 370
+    _, rose_h = rose_ascii(0, 0, rose_w)
+    # Pushed past the corner so the stem runs off the edge, as on the site.
+    rose_svg, _ = rose_ascii(-rose_w * 0.14, h - rose_h + rose_w * 0.2, rose_w)
+
     body = (
-        '<defs><clipPath id="card"><rect width="100%" height="100%" rx="22"/></clipPath>'
-        '<radialGradient id="g" cx="0.75" cy="0.35" r="0.7">'
-        '<stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>'
-        '</radialGradient><mask id="m"><rect width="100%" height="100%" fill="url(#g)"/></mask></defs>'
+        '<defs><clipPath id="card"><rect width="100%" height="100%" rx="22"/></clipPath></defs>'
         '<g clip-path="url(#card)">'
-        + rect(0, 0, W, h, c['panel'])
-        + f'<g mask="url(#m)" stroke="{c["grid"]}" stroke-width="1">{grid}</g>'
-        + palette_band(0, h - 8, W, 8, c)
+        + rect(0, 0, W, h, FOOTER_BG)
+        + rose_svg
         + '</g>'
-        + t(W - pad, pad + 14, 'Portfolio', 13, 400, c['panel_muted'], 'end', 0.18, True)
+        + t(W - pad, pad + 14, 'Portfolio', 13, 400, FOOTER_MUTED, 'end', 0.18, True)
     )
-    size = 128
+
+    # Tagline, small, top left (where the footer keeps its contact line).
+    for i, line in enumerate(wrap(TAGLINE, 15, 300, 330)):
+        body += t(pad, pad + 14 + i * 22, line, 15, 300, FOOTER_MUTED)
+
+    # SWARNIM over RAI, right-aligned like the footer.
+    size = 112
+    right = W - pad + size * 0.03
     for i, word in enumerate(NAME):
-        body += t(pad - 5, 168 + i * size * 0.86, word, size, 900, c['panel_text'], tracking=-0.03)
-    base = h - pad - 14
-    lines = wrap(TAGLINE, 17, 300, 400)
-    for i, line in enumerate(lines):
-        body += t(pad, base - (len(lines) - 1 - i) * 24, line, 17, 300, c['panel_muted'])
+        body += t(right, 210 + i * size * 0.85, word, size, 900, FOOTER_INK, 'end', tracking=-0.03)
+
+    base = h - pad + 4
     pill_w = text_width(SITE_LABEL, 15, 400) + 70
     px = W - pad - pill_w
     body += (
-        glass(px + 0.5, base - 30.5, pill_w - 1, 45, c['panel_text'])
-        + t(px + 24, base - 2, SITE_LABEL, 15, 400, c['panel_text'])
-        + arrow(px + pill_w - 34, base - 14, 9, c['panel_text'])
+        glass(px + 0.5, base - 30.5, pill_w - 1, 45, FOOTER_INK)
+        + t(px + 24, base - 2, SITE_LABEL, 15, 400, FOOTER_INK)
+        + arrow(px + pill_w - 34, base - 14, 9, FOOTER_INK)
     )
     return svg(W, h, body, [300, 400, 900], f'Swarnim Rai: {TAGLINE} Visit {SITE_LABEL}')
 
