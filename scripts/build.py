@@ -530,16 +530,13 @@ QUERY = """
 query($login: String!) {
   user(login: $login) {
     createdAt
-    repositories(first: 100, ownerAffiliations: OWNER, privacy: PUBLIC, isFork: false) {
-      totalCount
-      nodes {
-        name
-        stargazerCount
-        primaryLanguage { name }
-        languages(first: 12, orderBy: {field: SIZE, direction: DESC}) {
-          edges { size node { name } }
-        }
-      }
+    repositories(first: 100, ownerAffiliations: [OWNER, COLLABORATOR, ORGANIZATION_MEMBER],
+                 privacy: PUBLIC, isFork: false) {
+      nodes { ...repo }
+    }
+    repositoriesContributedTo(first: 100, privacy: PUBLIC, includeUserRepositories: false,
+                              contributionTypes: [COMMIT, PULL_REQUEST, ISSUE, PULL_REQUEST_REVIEW, REPOSITORY]) {
+      nodes { ...repo }
     }
     contributionsCollection {
       totalCommitContributions
@@ -548,6 +545,17 @@ query($login: String!) {
       totalPullRequestReviewContributions
       totalRepositoryContributions
     }
+  }
+}
+
+fragment repo on Repository {
+  nameWithOwner
+  isFork
+  stargazerCount
+  owner { login }
+  primaryLanguage { name }
+  languages(first: 12, orderBy: {field: SIZE, direction: DESC}) {
+    edges { size node { name } }
   }
 }
 """
@@ -569,6 +577,15 @@ def fetch():
     if payload.get('errors'):
         sys.exit(json.dumps(payload['errors'], indent=2))
     return payload['data']['user']
+
+
+def all_repos(u):
+    """Repos owned, collaborated on or contributed to, each once (forks aside)."""
+    seen = {}
+    for r in u['repositories']['nodes'] + u['repositoriesContributedTo']['nodes']:
+        if not r['isFork']:
+            seen.setdefault(r['nameWithOwner'], r)
+    return list(seen.values())
 
 
 def fmt(n):
@@ -615,15 +632,17 @@ def donut_panel(x0, width, title, note, items, centre, caption, c, value_fmt):
 
 def stats(u, c, today):
     cc = u['contributionsCollection']
-    repos = u['repositories']['nodes']
-    stars = sum(r['stargazerCount'] for r in repos)
+    repos = all_repos(u)
+    own = [r for r in repos if r['owner']['login'] == USER]
+    # Stars count only on your own repos; others' stars aren't yours.
+    stars = sum(r['stargazerCount'] for r in own)
     colours = lambda names: [c['muted'] if n == 'Other' else c['colors'][ORDER[k % 5]] for k, n in enumerate(names)]
     pct = lambda v, total: f'{100 * v / total:.1f}%' if total else '0%'
     count = lambda v, total: fmt(v)
 
     sizes = {}
     for r in repos:
-        if r['name'] == USER:
+        if r['nameWithOwner'] == f'{USER}/{USER}':
             continue
         for e in r['languages']['edges']:
             sizes[e['node']['name']] = sizes.get(e['node']['name'], 0) + e['size']
@@ -653,14 +672,14 @@ def stats(u, c, today):
          f'{100 * langs[0][1] / lang_total:.0f}%' if lang_total else '', langs[0][0] if langs else '', pct),
         ('Repos by language', 'primary language',
          [(n, v, k) for (n, v), k in zip(by_repo, colours([n for n, _ in by_repo]))],
-         fmt(len(repos)), 'public repos', count),
+         fmt(len(repos)), 'repos', count),
         ('Contribution mix', 'past year',
          [(n, v, c['colors'][ORDER[k]]) for k, (n, v) in enumerate(mix)],
          fmt(mix_total), 'contributions', count),
     ]
     body = (
-        t(0, 16, f'@{USER}  ·  {len(repos)} public repos  ·  {stars} stars', 13, 400, c['muted'], tracking=0.04)
-        + t(W, 16, f'On GitHub since {u["createdAt"][:4]}  ·  Updated {today:%d %b %Y}', 13, 400, c['muted'], 'end', 0.04)
+        t(0, 16, f'@{USER}  ·  {len(own)} own repos  ·  {len(repos) - len(own)} contributed to  ·  {stars} stars', 13, 400, c['muted'], tracking=0.04)
+        + t(W, 16, f'On GitHub since {u["createdAt"][:4]}  ·  Updated {today:%d %b %Y, %H:%M} IST', 13, 400, c['muted'], 'end', 0.04)
     )
     bottom = 0
     for k, (title, note, items, centre, caption, value_fmt) in enumerate(panels):
@@ -677,7 +696,7 @@ def build_live():
     out = ROOT / 'dist'
     out.mkdir(exist_ok=True)
     u = fetch()
-    today = dt.datetime.now(dt.timezone(dt.timedelta(hours=5, minutes=30))).date()
+    today = dt.datetime.now(dt.timezone(dt.timedelta(hours=5, minutes=30)))
     for name, c in THEMES.items():
         (out / f'stats-{name}.svg').write_text(stats(u, c, today))
     print(f'wrote live graphics to {out}')

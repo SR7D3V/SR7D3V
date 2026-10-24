@@ -2,7 +2,7 @@ name: Update stats
 
 on:
   schedule:
-    - cron: '30 18 * * *' # midnight IST
+    - cron: '17 * * * *' # hourly; off the top of the hour, when GitHub's scheduler is busiest
   workflow_dispatch:
   push:
     branches: [main]
