@@ -53,7 +53,7 @@ PROJECTS = [
         'body': 'A multi-store clothing retail platform. 3NF PostgreSQL schema, concurrency-safe '
                 'checkout with row-level locks, a trigger-maintained inventory ledger and '
                 'full-text search.',
-        'stack': ['Next.js', 'TypeScript', 'PostgreSQL'],
+        'stack': ['PostgreSQL', 'Next.js', 'TypeScript'],
         'color': 'merlot',
     },
     {
@@ -128,7 +128,7 @@ STACK = [
 ]
 
 # Bump when graphics change so GitHub's image cache fetches the new files.
-VERSION = 9
+VERSION = 10
 
 # ---------------------------------------------------------------- THEME
 
