@@ -56,6 +56,28 @@ PROJECTS = [
         'stack': ['Next.js', 'TypeScript', 'PostgreSQL'],
         'color': 'merlot',
     },
+    {
+        'slug': 'tenderbridge',
+        'url': 'https://github.com/harshbhushan21/TenderBridge',
+        'kind': 'Agentic AI',
+        'title': 'TenderBridge',
+        'body': 'A bid / no-bid copilot for public IT tenders. LangGraph agents turn a tender pack '
+                'into a compliance matrix, a scored recommendation and a cited draft, with a human '
+                'approving each decision.',
+        'stack': ['Python', 'LangGraph', 'Next.js'],
+        'color': 'olive',
+    },
+    {
+        'slug': 'hibermate',
+        'url': 'https://github.com/SR7D3V/hibermate',
+        'kind': 'macOS',
+        'title': 'Hibermate',
+        'body': 'A menu bar app that keeps a MacBook awake with the lid closed only while AI agents '
+                'like Claude Code and Codex are working, then lets it sleep, with thermal and '
+                'battery safety limits.',
+        'stack': ['Swift', 'SwiftUI', 'Shell'],
+        'color': 'tobacco',
+    },
 ]
 
 # (category, palette colour, [(name shown on hover, icon key, brand colour, link)])
@@ -106,7 +128,7 @@ STACK = [
 ]
 
 # Bump when graphics change so GitHub's image cache fetches the new files.
-VERSION = 8
+VERSION = 9
 
 # ---------------------------------------------------------------- THEME
 
